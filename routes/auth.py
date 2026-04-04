@@ -7,6 +7,14 @@ from flask import Blueprint, request, jsonify
 from firebase_admin import auth
 from firebase_init import db
 import bcrypt
+import requests as req
+import os
+from dotenv import load_dotenv
+
+# .env ფაილიდან ცვლადების ჩატვირთვა
+load_dotenv()
+
+FIREBASE_API_KEY = os.getenv("FIREBASE_API_KEY")
 
 # Blueprint = route-ების "ჯგუფი"
 # app.py-ში ამ ჯგუფს მთლიანად დავარეგისტრირებთ
@@ -80,7 +88,7 @@ def register():
 
     return jsonify({"success": True, "userId": firebase_user.uid}), 201
 
-    # ================================
+  # ================================
 # POST /auth/login
 # მომხმარებლის შესვლა
 # ================================
@@ -106,7 +114,6 @@ def login():
     user = users[0].to_dict()
 
     # password-ის შემოწმება
-    # bcrypt.checkpw = შეადარე plain text → hash-ს
     password_correct = bcrypt.checkpw(
         password.encode("utf-8"),
         user["password"].encode("utf-8")
@@ -115,22 +122,35 @@ def login():
     if not password_correct:
         return jsonify({"error": "პაროლი არასწორია"}), 401
 
-    # Firebase Token-ის მიღება
-    # custom token = Firebase-ის ხელმოწერილი token
+    # Firebase REST API-ით idToken-ს ვიღებთ
+    # idToken = ჩვენი verify_token-ისთვის საჭირო token
     try:
-        token = auth.create_custom_token(user["userId"])
+        
+       
+        
+        response = req.post(
+            f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_API_KEY}",
+            json={
+                "email": f"{username}@mathgame.ge",
+                "password": password,
+                "returnSecureToken": True
+            }
+        )
+        token_data = response.json()
+        id_token = token_data["idToken"]
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
     return jsonify({
-        "firebaseToken": token.decode("utf-8"),
-        "userId":   user["userId"],
-        "name":     user["name"],
-        "surname":  user["surname"],
-        "avatarId": user["avatarId"],
-        "grade":    user["grade"],
-        "stars":    user["stars"],
-        "points":   user["points"],
-        "rank":     user["rank"],
-        "badges":   user["badges"]
+        "firebaseToken": id_token,
+        "userId":        user["userId"],
+        "name":          user["name"],
+        "surname":       user["surname"],
+        "avatarId":      user["avatarId"],
+        "grade":         user["grade"],
+        "stars":         user["stars"],
+        "points":        user["points"],
+        "rank":          user["rank"],
+        "badges":        user["badges"]
     }), 200

@@ -3,3 +3,4 @@ serviceAccountKey.json
 __pycache__/
 *.pyc
 get-pip.py
+.env

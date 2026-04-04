@@ -8,16 +8,17 @@ from flask import Flask
 from flask_cors import CORS
 from firebase_init import db
 
+
 # Blueprint-ების import
-# თითო route ფაილიდან Blueprint-ს ვიღებთ
 from routes.auth import auth_bp
+from routes.game import game_bp
 
 app = Flask(__name__)
 CORS(app)
 
 # Blueprint-ების რეგისტრაცია
-# ახლა /auth/register და /auth/login ხელმისაწვდომია
 app.register_blueprint(auth_bp)
+app.register_blueprint(game_bp)
 
 # ================================
 # /health endpoint
