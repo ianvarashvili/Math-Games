@@ -69,9 +69,9 @@ def submit_game():
         accuracy_score = round((actions_correct / actions_total) * 50)
 
         # სიჩქარე: დარჩენილი დრო / მაქსიმუმი * 50
-        speed_score = round(
+        speed_score = max(0, round(
             ((max_time - time_spent) / max_time) * 50
-        )
+        ))
 
         # სულ ქულა
         total_score = accuracy_score + speed_score
