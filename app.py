@@ -12,6 +12,7 @@ from firebase_init import db
 # Blueprint-ების import
 from routes.auth import auth_bp
 from routes.game import game_bp
+from routes.leaderboard import leaderboard_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +20,7 @@ CORS(app)
 # Blueprint-ების რეგისტრაცია
 app.register_blueprint(auth_bp)
 app.register_blueprint(game_bp)
+app.register_blueprint(leaderboard_bp)
 
 # ================================
 # /health endpoint
