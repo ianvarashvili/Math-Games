@@ -51,11 +51,13 @@ def get_leaderboard():
             "userId":   data["userId"],
             "name":     data["name"],
             "avatarId": data["avatarId"],
-            "stars":    data["stars"]
+            "stars":    data["stars"],
+            "points":   data["points"] 
         })
 
     # კლებადობით დალაგება
-    all_users.sort(key=lambda x: x["stars"], reverse=True)
+ 
+    all_users.sort(key=lambda x: (x["stars"], x["points"]), reverse=True)
 
     # ================================
     # 5. ადგილების მინიჭება
