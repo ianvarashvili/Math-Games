@@ -14,6 +14,7 @@ from routes.auth import auth_bp
 from routes.game import game_bp
 from routes.leaderboard import leaderboard_bp
 from routes.progress import progress_bp
+from routes.profile import profile_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +24,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(game_bp)
 app.register_blueprint(leaderboard_bp)
 app.register_blueprint(progress_bp)
+app.register_blueprint(profile_bp)
 
 # ================================
 # /health endpoint
