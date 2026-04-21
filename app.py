@@ -7,6 +7,7 @@
 from flask import Flask
 from flask_cors import CORS
 from firebase_init import db
+import os
 
 
 # Blueprint-ების import
@@ -34,4 +35,5 @@ def health():
     return {"status": "ok", "message": "სერვერი მუშაობს! 🎉"}
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, port=port)
