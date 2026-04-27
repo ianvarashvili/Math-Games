@@ -137,6 +137,10 @@ def login():
             }
         )
         token_data = response.json()
+        if "idToken" not in token_data:
+            error_msg= token_data.get("error", {}).get("message", "Firebase token ვერ მოიძებნა")
+            return jsonify({"error": error_msg}), 500
+        
         id_token = token_data["idToken"]
 
     except Exception as e:
