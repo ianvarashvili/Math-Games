@@ -15,6 +15,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 FIREBASE_API_KEY = os.getenv("FIREBASE_API_KEY")
+# ← ეს დაამატე დროებით
+print(f"DEBUG API KEY: '{FIREBASE_API_KEY}'")
+
 
 # Blueprint = route-ების "ჯგუფი"
 # app.py-ში ამ ჯგუფს მთლიანად დავარეგისტრირებთ
