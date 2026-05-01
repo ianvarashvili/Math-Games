@@ -77,9 +77,9 @@ def submit_game():
         total_score = accuracy_score + speed_score
 
         # ვარსკვლავები
-        if total_score >= 80:
+        if total_score >= 70:
             stars = 3
-        elif total_score >= 50:
+        elif total_score >= 30:
             stars = 2
         else:
             stars = 1
